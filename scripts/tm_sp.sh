@@ -12,8 +12,8 @@ method="b97-d"
 #method_gcp="dft/svp"
 #############
 
-if [ ! -z $2 ]; then
-    charge=$2
+if [ ! -z $1 ]; then
+    charge=$1
 fi
 
 cat > control << EOF
@@ -30,7 +30,6 @@ fi
 
 define << EOF
 $title
-*
 no
 b
 all $basis

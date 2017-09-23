@@ -72,6 +72,14 @@ def is_uniq_conformer(mol, ref_cid, target_cids, rmsd_threshold=0.5):
     return uniq
 
 
+def RemoveConformers(mol, mask):
+    confs = mol.GetConformers()
+    assert len(confs) == len(mask)
+    for c, m in zip(confs, mask):
+        if m:
+            mol.RemoveConfofmer(c.GetId())
+
+
 def save_mol(mol, filename):
     with open(filename, 'w') as f:
         f.write(mol.ToBinary())
