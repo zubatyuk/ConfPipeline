@@ -27,5 +27,5 @@ if __name__ == '__main__':
 
     config = yaml.load(ns.config.read())
 
-    for mol in Chem.SDMolSupplier(parser.infile):
+    for mol in Chem.SDMolSupplier(ns.infile):
         ns.outfile.write(run_though_pipeline(mol))
