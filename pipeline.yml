@@ -1,0 +1,40 @@
+- EmbedConformers:
+    max_out: -1
+    nrot_min: 4
+    nrot_max: 10
+    pool_mult: 50
+    out_mult: 4
+    emax: 20.0
+
+- TurboOpt:
+    script: tm_opt0.sh 
+    n_jobs: 16
+
+- CleanConformers:
+    max_keep: -1
+    rmsd_thresh: 0.5
+    max_energy: 10.0
+    max_delta_e_compare: 0.0016 
+
+- TurboOpt:
+    script: tm_opt1.sh 
+    n_jobs: 16
+
+- CleanConformers:
+    max_keep: -1
+    rmsd_thresh: 0.5
+    max_energy: 3.0
+    max_delta_e_compare: 0.0016 
+
+- TurboSP:
+    script: tm_sp.sh 
+    n_jobs: 16
+
+- CleanConformers:
+    max_keep: 1
+
+- TurboDesc:
+    script_gas: tm_sp.sh 0 cosmo 1 
+    script_cosmo: tm_sp.sh 0 cosmo 80 
+
+
