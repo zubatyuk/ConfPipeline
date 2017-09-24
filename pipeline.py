@@ -3,6 +3,7 @@ from rdkit_utils import EmbedConformers, CleanConformers
 from job_runner import TurboOpt, TurboSP, TurboDesc
 from rdkit import Chem
 from rdkit.Chem import AllChem
+from mongo_uploader import MongoUploader
 
 
 def run_though_pipeline(obj, config):
@@ -18,21 +19,17 @@ def run_though_pipeline(obj, config):
 if __name__ == '__main__':
     import sys
     import argparse
+    import pickle
 
     parser = argparse.ArgumentParser()
     parser.description = 'Conformer generation pipeline'
-    parser.add_argument('--infile', '-i', type=argparse.FileType('r'),
+    parser.add_argument('--infile', '-i', type=argparse.FileType('rb'),
                         help='Input SDF file')
-    parser.add_argument('--outfile', '-o', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
-                        help='Output SDF file (default STDOUT)')
     parser.add_argument('--config', '-c', nargs='?', type=argparse.FileType('r'), default='pipeline.yml',
                         help='Pipeline config (default pipeline.yml)')
 
     ns = parser.parse_args()
 
     config = yaml.load(ns.config.read())
-
-    writer = Chem.SDWriter(ns.outfile)
-    for mol in Chem.SDMolSupplier(ns.infile.name):
-        mol = run_though_pipeline(mol, config)
-        writer.write(mol)
+    mol = pickle.load(ns.infile)
+    run_though_pipeline(mol, config)

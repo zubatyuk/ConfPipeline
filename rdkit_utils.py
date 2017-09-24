@@ -56,7 +56,9 @@ def EmbedConformers(mol, max_out=-1, nrot_min=4, nrot_max=10, pool_mult=50, out_
     nrot = Chem.rdMolDescriptors.CalcNumRotatableBonds(mol)
     nrot = max(nrot_min, min(nrot_max, nrot))
     nout = max(max_out, nrot * out_mult)
-    mol = Chem.AddHs(mol)
+    mol1 = Chem.AddHs(mol)
+    mol1.__dict__ = dict(mol.__dict__)
+    mol = mol1
     AllChem.EmbedMultipleConfs(mol, numConfs=nrot*pool_mult, pruneRmsThresh=-1.)
     OptimizeConformersFF(mol)
     CleanConformers(mol, max_keep=nout, max_energy=emax)
