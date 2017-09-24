@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
    echo "Abbormal termination from x2t" && exit 1
 fi
 
-define << EOF
+define &> /dev/null << EOF
 $title
 no
 b
@@ -63,7 +63,7 @@ if [ $? -ne 0 ]; then
 fi
 
 if [[ $2 == "cosmo" ]]; then
-  cosmoprep << EOF
+  cosmoprep &> /dev/null<< EOF
 $3
 
 
@@ -85,4 +85,4 @@ EOF
   fi
 fi
 
-ridft
+ridft &> /dev/null

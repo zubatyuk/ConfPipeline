@@ -17,7 +17,7 @@
     max_delta_e_compare: 0.0016 
 
 - TurboOpt:
-    script: tm_opt1.sh 
+    script: tm_opt1.sh
     n_jobs: 16
 
 - CleanConformers:
@@ -27,7 +27,7 @@
     max_delta_e_compare: 0.0016 
 
 - TurboSP:
-    script: tm_sp.sh 
+    script: tm_sp.sh
     n_jobs: 16
 
 - CleanConformers:

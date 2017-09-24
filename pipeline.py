@@ -6,7 +6,12 @@ from rdkit.Chem import AllChem
 
 
 def run_though_pipeline(obj, config):
-    for k, v in config:
+    for c in config:
+        k, v = list(c.items())[0]
+        print('Running ', k)
+        print(obj.GetNumConformers())
+        print([x.GetId() for x in obj.GetConformers()])
+        print(obj.__dict__.get('energies'))
         obj = eval(k)(obj, **v)
     return obj
 
@@ -15,9 +20,9 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.description = 'Morse encoder/decoder, uses extended table (all printable ASCII characters)'
-    parser.add_argument('--infile', '-i', nargs='?', type=argparse.FileType('r'), default=sys.stdin,
-                        help='Input SDF file (default STDIN)')
+    parser.description = 'Conformer generation pipeline'
+    parser.add_argument('--infile', '-i', type=argparse.FileType('r'),
+                        help='Input SDF file')
     parser.add_argument('--outfile', '-o', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                         help='Output SDF file (default STDOUT)')
     parser.add_argument('--config', '-c', nargs='?', type=argparse.FileType('r'), default='pipeline.yml',
@@ -27,5 +32,7 @@ if __name__ == '__main__':
 
     config = yaml.load(ns.config.read())
 
-    for mol in Chem.SDMolSupplier(ns.infile):
-        ns.outfile.write(run_though_pipeline(mol))
+    writer = Chem.SDWriter(ns.outfile)
+    for mol in Chem.SDMolSupplier(ns.infile.name):
+        mol = run_though_pipeline(mol, config)
+        writer.write(mol)

@@ -23,6 +23,18 @@ cat > control << EOF
 \$coord    file=coord
 \$user-defined bonds    file=coord
 \$scfiterlimit  200
+\$scfconv   5
+\$scfdamp   start=1.500  step=0.050  min=0.050
+\$statpt
+  itrvec      0
+  radmax      0.3
+  radmin      1.0d-4
+  tradius     0.3
+  threchange  5.0d-4
+  thrmaxdispl 3.0d-2
+  thrmaxgrad  3.0d-2
+  thrrmsdispl 1.0d-2
+  thrrmsgrad  1.0d-2
 \$end
 EOF
 
@@ -31,7 +43,7 @@ if [ $? -ne 0 ]; then
    echo "Abbormal termination from x2t" && exit 1
 fi
 
-define << EOF
+define &> /dev/null << EOF
 $title
 y
 ired
@@ -68,7 +80,7 @@ if [ $? -ne 0 ]; then
 fi
 
 if [[ $2 == "cosmo" ]]; then
-  cosmoprep << EOF
+  cosmoprep  &> /dev/null<< EOF
 $3
 
 
@@ -90,4 +102,4 @@ EOF
 fi
 
 # run opt
-jobex -c 50 -energy 4 -gcart 2 -gexp 2 
+jobex -c 50 &> /dev/null 

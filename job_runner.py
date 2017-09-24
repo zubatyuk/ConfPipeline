@@ -12,7 +12,7 @@ def TurboOpt(mol, script, n_jobs=1):
     results = Parallel(n_jobs=n_jobs)(delayed(run_calc)(
         *[
             (write_xyz, {'mol': mol, 'conf_id': conf_id, 'fil': 'tm.xyz'}),
-            (os.system, [script + ' > /dev/null']),
+            (os.system, [script]),
             (get_tm_xyz_energy, {})
         ]
     ) for conf_id in conf_ids)
@@ -30,9 +30,9 @@ def TurboDesc(mol, script_gas, script_cosmo=None, n_jobs=1):
     results = Parallel(n_jobs=n_jobs)(delayed(run_calc)(
         *[
             (write_xyz, {'mol': mol, 'conf_id': conf_id, 'fil': 'tm.xyz'}),
-            (os.system, [script_gas + ' > /dev/null']),
+            (os.system, [script_gas]),
             (parse_cosmo, {}),
-            (os.system if script_cosmo else noop, [script_cosmo + ' > /dev/null']),
+            (os.system if script_cosmo else noop, [script_cosmo]),
             (get_tm_energy if script_cosmo else noop, {}),
             (parse_cosmo, {}),
         ]
@@ -59,7 +59,7 @@ def TurboSP(mol, script, n_jobs=1):
     results = Parallel(n_jobs=n_jobs)(delayed(run_calc)(
         *[
             (write_xyz, {'mol': mol, 'conf_id': conf_id, 'fil': 'tm.xyz'}),
-            (os.system, [script + ' > /dev/null']),
+            (os.system, [script]),
             (get_tm_energy, {}),
         ]
     ) for conf_id in conf_ids)
