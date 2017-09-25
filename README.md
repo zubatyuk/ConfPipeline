@@ -10,7 +10,7 @@ Example usage:
 
 ```
 import yaml
-from pipeline import run_though_pipeline conf_gen
+from pipeline import run_though_pipeline as conf_gen
 from rdkit import Chem
 
 config = yaml.load(open('pipeline.yml').read())
