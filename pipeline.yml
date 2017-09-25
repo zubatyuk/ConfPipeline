@@ -13,7 +13,7 @@
 - CleanConformers:
     max_keep: -1
     rmsd_thresh: 0.5
-    max_energy: 10.0
+    max_energy: 0.016
     max_delta_e_compare: 0.0016 
 
 - TurboOpt:
@@ -23,7 +23,7 @@
 - CleanConformers:
     max_keep: -1
     rmsd_thresh: 0.5
-    max_energy: 3.0
+    max_energy: 0.005
     max_delta_e_compare: 0.0016 
 
 - TurboSP:
